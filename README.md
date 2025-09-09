@@ -23,74 +23,38 @@ CSV	Raw data source
   Imported the transformed data into Power BI and created custom DAX measures.
 
 ✅ DAX Measures:
-age_group → age segmentation (18-25, 26-35, etc.)
-income_group → income segmentation (Low, Medium, High)
-Total Revenue = 
-    SUM('Data'[Annual_Fee]) + 
-    SUM('Data'[Transaction_Amount]) + 
-    SUM('Data'[Interest_Earned])
+AgeGroup = SWITCH(
+    TRUE(),
+        cust_detail[customer_age]<30,"20-30",
+        and(cust_detail[customer_age]>=30, cust_detail[customer_age] < 40), "30-40",
+        and(cust_detail[customer_age]>=40, cust_detail[customer_age] < 50), "40-50",
+        and(cust_detail[customer_age]>=50, cust_detail[customer_age] < 60), "50-60",
+        cust_detail[customer_age]>=60, "60+",
+        "unknown"
+)
 
-Current Week Revenue = 
-    CALCULATE([Total Revenue], WEEKNUM('Data'[Date]) = WEEKNUM(TODAY()))
+IncomeGroup = SWITCH(
+     TRUE(),
+     cust_detail[income] < 35000, "Low",
+     and(cust_detail[income] >=35000, cust_detail[income] <70000), "Medium",
+     cust_detail[income] >70000, "High",
+     "unknown"
+     )
 
-Previous Week Revenue = 
-    CALCULATE([Total Revenue], WEEKNUM('Data'[Date]) = WEEKNUM(TODAY()) - 1)
+Revenue = cc_detail[annual_fees] + cc_detail[total_trans_amt] + cc_detail[interest_earned]
 
-WoW Change % = 
-    DIVIDE([Current Week Revenue] - [Previous Week Revenue], [Previous Week Revenue])
+current_week_revenue = CALCULATE(
+     sum(cc_detail[Revenue]),
+        FILTER(
+            all(cc_detail),
+                cc_detail[week_num2]=max(cc_detail[week_num2])))
 
-📊 Key Insights
-💰 Revenue Insights
+previous_week_revenue = CALCULATE(
+     sum(cc_detail[Revenue]),
+        FILTER(
+            all(cc_detail),
+                cc_detail[week_num2]=max(cc_detail[week_num2])-1))
 
-Total Revenue comprises:
-
-Credit Card Annual Fees
-
-Transaction Amounts
-
-Interest Earned
-
-Week-over-Week Growth: X% increase in revenue compared to previous week.
+wow_revenue = DIVIDE([current_week_revenue] - [previous_week_revenue],[previous_week_revenue],0)
 
 Top Contributing Segments:
-
-Age group: 36-50
-
-Income group: High Income
-
-⚠️ Delinquent Accounts
-
-Delinquency Rate: X% of accounts marked as delinquent.
-
-These accounts contribute to a Y% loss in expected revenue.
-
-Concentrated among:
-
-Lower income groups
-
-Age groups 18–25 and 50+
-
-🟢 Card Activation Within 30 Days
-
-Z% of new users activated their credit cards within 30 days of issuance.
-
-Early activation is correlated with higher transaction volume and revenue.
-
-Opportunity: Target late activators with onboarding campaigns.
-
-🔁 Weekly Update Process
-✅ Added Next Week's Data
-
-A new CSV containing the next week’s data was ingested into PostgreSQL.
-
-COPY credit_card_data
-FROM '/path/to/credit_card_data_week2.csv'
-DELIMITER ','
-CSV HEADER;
-
-🔄 Power BI Data Refresh
-After data refresh:
-  New week revenue metrics auto-updated
-  WoW % change recalculated
-  Trend lines reflected the additional data
-  Ensured dynamic dashboard behavior by using relative date filtering and time intelligence functions in DAX.
