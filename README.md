@@ -21,5 +21,9 @@ The objective of this project is to analyze the weekly financial and behavioral 
 3. Power BI Dashboard & DAX Measures:
   Imported the transformed data into Power BI and created custom DAX measures.
 
-## Visualization
+## Visualizations
 <img width="887" height="500" alt="Image" src="https://github.com/user-attachments/assets/5c255851-ae6d-4809-876d-59fbb6d6c2a1" />
+
+<img width="885" height="514" alt="Image" src="https://github.com/user-attachments/assets/10304d2e-9b3d-44d9-a1c8-6f26dbb3feda" />
+
+## Insights
