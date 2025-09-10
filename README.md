@@ -21,11 +21,14 @@ The objective of this project is to analyze the weekly financial and behavioral 
 3. Power BI Dashboard & DAX Measures:
   Imported the transformed data into Power BI and created custom DAX measures.
 
-## Visualizations and Analysis
+## Visualizations: You can interact with the report here (https://1drv.ms/u/c/a682c12d42d3c3e3/ESvuhRIIcPpJifGToGU7o3QBBsw-8lt5PWyzVPRRkmHm0Q?e=aE8dV7)
+### Credit Card Transaction Report Analysis:
+- 
 <img width="887" height="500" alt="Image" src="https://github.com/user-attachments/assets/5c255851-ae6d-4809-876d-59fbb6d6c2a1" />
 
 :-------------:
-
+### Credit Card Customer Report Analysis on Gender basis:
+- 
 <img width="885" height="514" alt="Image" src="https://github.com/user-attachments/assets/10304d2e-9b3d-44d9-a1c8-6f26dbb3feda" />
 
 # Insights
